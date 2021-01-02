@@ -23,7 +23,7 @@ public class Modele {
 
 	public static void main(String[] args) {
 		Modele m = new Modele("//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
-		System.out.println("Solde 0 : "+m.calculSolde("0"));
+		logger.info("Solde 0 : "+m.calculSolde("0"));
 		m.close();
 	}
 	

@@ -16,22 +16,6 @@ public class Controle {
 	private Vue vue;
 	private static final Logger logger = LogManager.getLogger(Controle.class);
 	
-//	static {
-//		System.setProperty("java.util.logging.SimpleFormatter.format", 
-//	            "%1$tF %1$tT %4$s %2$s %5$s%6$s%n");
-//		System.setProperty("java.util.logging.FileHandler.formatter", 
-//	            "java.util.logging.SimpleFormatter.format");
-//		Handler fh;
-//		try {
-//			fh = new FileHandler("%h/MesComptes%u.log",1024,3,true);
-//			SimpleFormatter formatter = new SimpleFormatter();  
-//			fh.setFormatter(formatter); 
-//			LOGGER.addHandler(fh);
-//		} catch (SecurityException | IOException e) {
-//			LOGGER.severe("Impossible d'associer le FileHandler : "+e.getMessage());
-//		}
-//	}
-	
 	public Controle() {
 		
 		logger.info("Démarrage MesComptes");

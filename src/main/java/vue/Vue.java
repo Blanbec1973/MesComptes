@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
@@ -59,25 +60,6 @@ public class Vue {
 		
 		pnlMain.add(buildPnlSaisie(), BorderLayout.SOUTH);
 		
-//		JMenuBar barreMenus = new JMenuBar();
-//		fen.setJMenuBar(barreMenus);
-//		JMenu menu1 = new JMenu("menu1");
-//		barreMenus.add(menu1);
-//		JMenuItem menu1option1 = new JMenuItem("menu1option1");
-//		menu1.add(menu1option1);
-//		JMenuItem menu1option2 = new JMenuItem("menu1option2");
-//		menu1.add(menu1option2);
-//		JMenuItem menu1option3 = new JMenuItem("menu1option3");
-//		menu1.add(menu1option3);
-//		JMenu menu2 = new JMenu("menu2");
-//		barreMenus.add(menu2);
-//		JMenuItem menu2option1 = new JMenuItem("menu2option1");
-//		menu2.add(menu2option1);
-//		JMenuItem menu2option2 = new JMenuItem("menu2option2");
-//		menu2.add(menu2option2);
-//		JMenuItem menu2option3 = new JMenuItem("menu2option3");
-//		menu2.add(menu2option3);
-		
         WindowListener exitListener = new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -109,19 +91,19 @@ public class Vue {
 		
 		JLabel lblDate = new JLabel("Date");
 		pnlSaisie.add(lblDate);
-		lblDate.setHorizontalAlignment(JLabel.CENTER);
+		lblDate.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblLibelle = new JLabel("Libellé");
 		pnlSaisie.add(lblLibelle);
-		lblLibelle.setHorizontalAlignment(JLabel.CENTER);
+		lblLibelle.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblMode = new JLabel("Mode");
 		pnlSaisie.add(lblMode);
-		lblMode.setHorizontalAlignment(JLabel.CENTER);
+		lblMode.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblMontant = new JLabel("Montant");
 		pnlSaisie.add(lblMontant);
-		lblMontant.setHorizontalAlignment(JLabel.CENTER);
+		lblMontant.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblFlagPec = new JLabel("Flag PEC");
 		pnlSaisie.add(lblFlagPec);
-		lblFlagPec.setHorizontalAlignment(JLabel.CENTER);
+		lblFlagPec.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlSaisie.add(new JLabel(""));
 		
 		JTextField saisieDate = new JTextField();
@@ -137,17 +119,12 @@ public class Vue {
 		
 		JButton enregistrerBouton = new JButton("Enregistrer");
 		pnlSaisie.add(enregistrerBouton);
-        enregistrerBouton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-                if (controle != null) controle.demandeInsertionLigneDeCompte(saisieDate.getText(),
-                		                               saisieLibelle.getText(),
-                		                               saisieMode.getText(),
-                		                               saisieMontant.getText(),
-                		                               saisieFlagPec.isSelected());
-            }
-        });
-		
-		return pnlSaisie;
+        enregistrerBouton.addActionListener(event -> controle.demandeInsertionLigneDeCompte(saisieDate.getText(),
+                		                                                                    saisieLibelle.getText(),
+                		                                                                    saisieMode.getText(),
+                		                                                                    saisieMontant.getText(),
+                		                                                                    saisieFlagPec.isSelected()));
+  		return pnlSaisie;
 	}
 
 	
