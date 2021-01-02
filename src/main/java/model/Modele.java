@@ -4,12 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Modele {
 	private SGBDManager sgbd;
 	private Map <String,String> lstCodeNature = new HashMap<>();
-	private static final Logger LOGGER = Logger.getLogger("MesComptes");
+	private static final Logger logger = LogManager.getFormatterLogger(Modele.class);
 	
 	public Modele(String nomFichierBase) {
 		sgbd = new SGBDManager(nomFichierBase);
@@ -37,7 +39,7 @@ public class Modele {
 				lstCodeNature.put(rst.getString(1), rst.getString(2));
 			}
 			rst.close();
-		} catch (SQLException e) {LOGGER.severe(e.getMessage());}
+		} catch (SQLException e) {logger.error(e.getMessage());}
 	}
 	
 	public float calculSolde(String numSolde) {
@@ -48,7 +50,7 @@ public class Modele {
 			rst.next();
 			solde = rst.getFloat(1);
 			rst.close();
-		} catch (SQLException e) {LOGGER.severe(e.getMessage()); return 0;}
+		} catch (SQLException e) {logger.error(e.getMessage()); return 0;}
 		return solde;
 	}
 }
