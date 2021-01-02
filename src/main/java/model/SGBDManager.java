@@ -5,15 +5,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Map;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SGBDManager {
     private String path;
     private Connection connection;
     private Statement statement;
     private ResultSet resultset;
-    private static final Logger logger = Logger.getLogger(SGBDManager.class.getPackage().getName());
+	private static final Logger logger = LogManager.getLogger(SGBDManager.class);
 	
     public Connection getConnection() {return connection;}
 
@@ -34,7 +35,7 @@ public class SGBDManager {
             connection = DriverManager.getConnection(connectionString);
         }
         catch (SQLException e) {
-            logger.severe("Impossible de se connecter à la base");
+        	logger.error("Impossible de se connecter à la base");
             return false;
         } 
         logger.info("Connexion SGBD OK.");
@@ -52,18 +53,18 @@ public class SGBDManager {
             return true;
         }
         catch (SQLException e) {
-        	logger.severe(e.getMessage());
+        	logger.error(e.getMessage());
             return false;
         }
     }
 
-    public ResultSet slectSQL(String sql) {
+    public ResultSet selectSQL(String sql) {
         try {
             statement = connection.createStatement();
             resultset = statement.executeQuery(sql);
             return resultset;
         } catch (SQLException ex) {
-            logger.severe(ex.getMessage());
+        	logger.error(ex.getMessage());
             return null;
         }  
         
@@ -80,21 +81,13 @@ public class SGBDManager {
             statement.executeUpdate(sql);
         }
         catch (SQLException e) {
-        	logger.severe(e.getMessage());
+        	logger.error(e.getMessage());
         }
     }
 
-	public void chargeTabCodeLibelle(Map<String, String> lstCodeNature, String nomTable) {
-		String sql = "Select * from ["+nomTable+"] order by 1;";
-		ResultSet rst = this.slectSQL(sql);
-		try {
-			while (rst.next()) {
-				lstCodeNature.put(rst.getString(1), rst.getString(2));
-			}
-			rst.close();
-		} catch (SQLException e) {
-        	logger.severe(e.getMessage());
-		}
-		
-	}
+
+	
+	
+	
+	
 }

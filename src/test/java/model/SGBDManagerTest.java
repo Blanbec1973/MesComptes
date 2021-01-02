@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,7 +39,7 @@ class SGBDManagerTest {
 	@Test
 	void testSQLSelect() {
 		//System.out.println("testSQLSelect");
-		ResultSet rst = base.slectSQL("Select * from [Code nature]");
+		ResultSet rst = base.selectSQL("Select * from [Code nature]");
 		int nbRow=0;
 		String lastLibelle ="";
 		
@@ -63,13 +61,5 @@ class SGBDManagerTest {
 //	void testSQLUpdate() {
 //		fail("Not yet implemented");
 //	}
-
-	@Test
-	void testChargeTabCodeLibelle() {
-		Map <String, String> table = new HashMap <String, String>();
-		base.chargeTabCodeLibelle(table, "Code nature");
-		assertEquals(8,table.size());
-		assertEquals("Carte bleue", table.get("CB"));
-	}
 
 }

@@ -3,11 +3,13 @@
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Parametres {
 	private String nomFichierBase;
-	 private static final Logger logger = Logger.getLogger(Parametres.class.getPackage().getName());
+	 private static final Logger logger = LogManager.getLogger(Parametres.class);
 	
 	public Parametres(String nomFichier) {
 		Properties prop = new Properties();
@@ -16,7 +18,7 @@ public class Parametres {
 		try {
 			prop.load(input);
 		} catch (IOException e) {
-			logger.severe(e.getMessage());
+			logger.error(e.getMessage());
 		} 	
 		nomFichierBase = prop.getProperty("nomFichierBase");
 	}
