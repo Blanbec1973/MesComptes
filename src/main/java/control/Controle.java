@@ -1,5 +1,7 @@
 package control;
 
+import java.util.Map;
+
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
@@ -16,7 +18,7 @@ public class Controle {
 	private Vue vue;
 	private static final Logger logger = LogManager.getLogger(Controle.class);
 	
-	public Controle() {
+	public Controle() throws UnsupportedLookAndFeelException {
 		
 		logger.info("Démarrage MesComptes");
 		
@@ -45,11 +47,26 @@ public class Controle {
 			                                  String saisieMode, String saisieMontant,
 			                                  boolean saisieFlagPec) {
 		System.out.println(saisieDate+"-"+saisieLibelle+"-"+saisieMode+"-"+saisieMontant+"-"+saisieFlagPec);
+		if (modele.insereLigneCompte(saisieDate, saisieLibelle, saisieMode, saisieMontant, saisieFlagPec))
+			vue.razZonesSaisie();
+		else
+			vue.afficheMessageErreur();
 		
 	}
 	
-	public String demandeSolde(String numSolde) {
-		return String.valueOf(modele.calculSolde(numSolde));
+	public String demandeSoldePEC() {
+		return Utils.formatMontant(modele.getSolde().calculSoldePEC());
 	}
 
+	public String demandeSommeMvtNonPecAvantMoisSuivant() {
+		return Utils.formatMontant(modele.getSolde().calculCumulMvtsNonPecAvantMoisSuivant());
+	}
+	
+	public String demandeSoldeAvantMoisSuivant() {
+		return Utils.formatMontant(modele.getSolde().calculSoldeAvantMoisSuivant());
+	}
+
+	public Map<String,String> demandeListeNature() {
+		return modele.getLstCodeNature();
+	}
 }

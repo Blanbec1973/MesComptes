@@ -5,17 +5,18 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,14 +33,19 @@ import control.Controle;
 public class Vue {
 	private JFrame fen;
 	private Controle controle;
+	private JTextField saisieDate = new JTextField();
+	private JTextField saisieLibelle = new JTextField();
+	JComboBox<Object> cmbMode = new JComboBox<>();
+	private JTextField saisieMontant = new JTextField();
+	private JCheckBox saisieFlagPec = new JCheckBox();
 	
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
-		UIManager.setLookAndFeel( new NimbusLookAndFeel() );
 		new Vue(null);
 	}
 	
-	public Vue(Controle controle)
+	public Vue(Controle controle) throws UnsupportedLookAndFeelException
 		{
+		UIManager.setLookAndFeel( new NimbusLookAndFeel() );
 		this.controle=controle;
 		Toolkit tk=Toolkit.getDefaultToolkit();
 		Dimension dimEcran = tk.getScreenSize();
@@ -78,9 +84,9 @@ public class Vue {
 		JLabel lblMaDate = new JLabel("Date : "+tempString);
 		pnlSoldes.add(lblMaDate);
 		
-		pnlSoldes.add(new JLabel("Solde PEC Banque : "+controle.demandeSolde("1")));
-		pnlSoldes.add(new JLabel("Solde PEC Banque à date : "+controle.demandeSolde("0")));
-		pnlSoldes.add(new JLabel("Solde PEC Banque à  fin de mois"));
+		pnlSoldes.add(new JLabel("Solde PEC Banque : "+controle.demandeSoldePEC()));
+		pnlSoldes.add(new JLabel("Mvts non PEC avant M+1 : "+controle.demandeSommeMvtNonPecAvantMoisSuivant()));
+		pnlSoldes.add(new JLabel("Solde à fin de mois : "+controle.demandeSoldeAvantMoisSuivant()));
 		
 		return pnlSoldes;
 	}
@@ -94,7 +100,7 @@ public class Vue {
 		lblDate.setHorizontalAlignment(SwingConstants.CENTER);
 		JLabel lblLibelle = new JLabel("Libellé");
 		pnlSaisie.add(lblLibelle);
-		lblLibelle.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLibelle.setHorizontalAlignment(SwingConstants.CENTER);	
 		JLabel lblMode = new JLabel("Mode");
 		pnlSaisie.add(lblMode);
 		lblMode.setHorizontalAlignment(SwingConstants.CENTER);
@@ -106,25 +112,40 @@ public class Vue {
 		lblFlagPec.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlSaisie.add(new JLabel(""));
 		
-		JTextField saisieDate = new JTextField();
+		for (Map.Entry mapentry : controle.demandeListeNature().entrySet()) {
+			cmbMode.addItem(mapentry.getKey());
+		}
+		
 		pnlSaisie.add(saisieDate);
-		JTextField saisieLibelle = new JTextField();
-		pnlSaisie.add(saisieLibelle);
-		JTextField saisieMode = new JTextField();
-		pnlSaisie.add(saisieMode);
-		JTextField saisieMontant = new JTextField();
+		pnlSaisie.add(saisieLibelle);		
+		pnlSaisie.add(cmbMode);
+		cmbMode.setSelectedItem(null);
 		pnlSaisie.add(saisieMontant);
-		JCheckBox saisieFlagPec = new JCheckBox();
 		pnlSaisie.add(saisieFlagPec);
 		
 		JButton enregistrerBouton = new JButton("Enregistrer");
 		pnlSaisie.add(enregistrerBouton);
         enregistrerBouton.addActionListener(event -> controle.demandeInsertionLigneDeCompte(saisieDate.getText(),
                 		                                                                    saisieLibelle.getText(),
-                		                                                                    saisieMode.getText(),
+                		                                                                    cmbMode.getSelectedItem().toString(),
                 		                                                                    saisieMontant.getText(),
                 		                                                                    saisieFlagPec.isSelected()));
   		return pnlSaisie;
+	}
+
+	public void razZonesSaisie() {
+		saisieDate.setText("");
+		saisieLibelle.setText("");
+		cmbMode.setSelectedItem(null);
+		saisieMontant.setText("");
+		saisieFlagPec.setSelected(false);
+		saisieDate.requestFocus();
+		
+	}
+
+	public void afficheMessageErreur() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
