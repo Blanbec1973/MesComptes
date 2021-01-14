@@ -12,7 +12,6 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;

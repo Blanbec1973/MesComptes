@@ -5,9 +5,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class Utils {
-
-	public Utils() {
-	}
 	
 	public static String formatMontant(float nombre) {
 		StringBuilder str = new StringBuilder();

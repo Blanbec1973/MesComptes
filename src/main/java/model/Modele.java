@@ -28,7 +28,7 @@ public class Modele {
 	
 	public static void main(String[] args) {
 		Modele m = new Modele("//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
-		logger.info("Solde 0 : "+ m.getSolde().calculSoldePEC());
+		logger.info("Solde 0 : {}", m.getSolde().calculSoldePEC());
 		m.close();
 	}
 	

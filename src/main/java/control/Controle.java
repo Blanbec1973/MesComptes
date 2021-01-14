@@ -46,7 +46,7 @@ public class Controle {
 	public void demandeInsertionLigneDeCompte(String saisieDate, String saisieLibelle,
 			                                  String saisieMode, String saisieMontant,
 			                                  boolean saisieFlagPec) {
-		System.out.println(saisieDate+"-"+saisieLibelle+"-"+saisieMode+"-"+saisieMontant+"-"+saisieFlagPec);
+		logger.info(saisieDate+"-"+saisieLibelle+"-"+saisieMode+"-"+saisieMontant+"-"+saisieFlagPec);
 		if (modele.insereLigneCompte(saisieDate, saisieLibelle, saisieMode, saisieMontant, saisieFlagPec))
 			vue.razZonesSaisie();
 		else

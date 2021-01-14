@@ -49,7 +49,7 @@ class SGBDManagerTest {
 				nbRow+=1;
 				lastLibelle=rst.getString(1);
 			}
-			assertEquals(8,nbRow);
+			assertEquals(9,nbRow);
 			assertEquals("VS", lastLibelle);
 		} catch (SQLException e) {
 			e.printStackTrace();

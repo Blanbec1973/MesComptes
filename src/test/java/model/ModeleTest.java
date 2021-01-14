@@ -28,7 +28,7 @@ class ModeleTest {
 	void testChargeTabCodeLibelle() {
 		Map <String, String> table = new HashMap <String, String>();
 		modele.chargeTabCodeLibelle(table, "Code nature");
-		assertEquals(8,table.size());
+		assertEquals(9,table.size());
 		assertEquals("Carte bleue", table.get("CB"));
 	}
 
