@@ -15,7 +15,7 @@ class ParametresTest {
 
 	@Test
 	void testGetNomFichierBase() {
-		String nomFichier = parametres.getNomFichierBase();
+		String nomFichier = parametres.getProperty(null);
 		assertNotNull(nomFichier);
 	}
 	

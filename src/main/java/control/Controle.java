@@ -25,7 +25,7 @@ public class Controle {
 		
 		parametres = new Parametres("config.properties");
 		
-		modele = new Modele(this, parametres.getNomFichierBase());
+		modele = new Modele(this, parametres.getProperty("nomFichierBase"));
 		
 		vue = new Vue(this);
 			

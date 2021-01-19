@@ -8,11 +8,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Parametres {
-	private String nomFichierBase;
-	 private static final Logger logger = LogManager.getLogger(Parametres.class);
+	private Properties prop;
+	private static final Logger logger = LogManager.getLogger(Parametres.class);
+	
 	
 	public Parametres(String nomFichier) {
-		Properties prop = new Properties();
+		prop = new Properties();
 		InputStream input = getClass().getClassLoader().getResourceAsStream(nomFichier);
 
 		try {
@@ -20,8 +21,7 @@ public class Parametres {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		} 	
-		nomFichierBase = prop.getProperty("nomFichierBase");
 	}
 	
-	public String getNomFichierBase() {return nomFichierBase;}
+	public String getProperty(String nomProperty) {return prop.getProperty(nomProperty);}
 }

@@ -16,7 +16,7 @@ class ModeleTest {
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		modele=new Modele("//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
+		modele=new Modele(null, "//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
 	}
 	
 	@AfterAll

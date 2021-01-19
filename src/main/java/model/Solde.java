@@ -13,19 +13,7 @@ public class Solde {
 	private SGBDManager sgbd;
 	private Parametres parametres;
 	private static final Logger logger = LogManager.getFormatterLogger(Modele.class);
-	private static final String SQL_SOLDEPEC = "SELECT Sum([BPVF Compte chèque].[MontantMvt]) AS Somme, "
-			                                 + "[BPVF Compte chèque].[PriseEnCompteMvt] AS pec "
-			                                 + "FROM [BPVF Compte chèque] "
-			                                 + "WHERE [BPVF Compte chèque].[PriseEnCompteMvt] = '%s' "
-		                                     + "GROUP BY [BPVF Compte chèque].[PriseEnCompteMvt]";
-	private static final String SQL_MVTNONPEC = "SELECT Sum([BPVF Compte chèque].[MontantMvt]) AS Somme "
-								              + "FROM [BPVF Compte chèque] "
-								              + "WHERE [BPVF Compte chèque].[PriseEnCompteMvt] Is null "
-								              + "AND [BPVF Compte chèque].[DateMvt]<#%s# "
-								              + "GROUP BY [BPVF Compte chèque].[PriseEnCompteMvt]";	
-	private static final String SQL_SOLDEMOISSUIVANT = "SELECT Sum([BPVF Compte chèque].[MontantMvt]) AS Somme "
-									                 + "FROM [BPVF Compte chèque] "
-									                 + "WHERE [BPVF Compte chèque].[DateMvt]<#%s# ";	
+
 	
 	public Solde(SGBDManager sgbd, Parametres parametres) {
 		this.sgbd=sgbd;
@@ -33,19 +21,19 @@ public class Solde {
 	}
 
 	public float calculSoldePEC() {
-		String sql = String.format(SQL_SOLDEPEC, "1");
+		String sql = String.format(parametres.getProperty("SQL_SOLDEPEC"), "1");
 		logger.info(sql);
 		return calculSolde(sql);
 		}
 	
 	public float calculCumulMvtsNonPecAvantMoisSuivant() {
-		String sql = String.format(SQL_MVTNONPEC, Utils.premierJourMoisSuivant());
+		String sql = String.format(parametres.getProperty("SQL_MVTNONPEC"), Utils.premierJourMoisSuivant());
 		logger.info(sql);
 		return calculSolde(sql);
 	}
 	
 	public float calculSoldeAvantMoisSuivant() {
-		String sql = String.format(SQL_SOLDEMOISSUIVANT, Utils.premierJourMoisSuivant());
+		String sql = String.format(parametres.getProperty("SQL_SOLDEMOISSUIVANT"), Utils.premierJourMoisSuivant());
 		logger.info(sql);
 		return calculSolde(sql);
 	}

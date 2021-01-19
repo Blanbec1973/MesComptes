@@ -54,7 +54,7 @@ public class Modele {
 	public boolean insereLigneCompte(String saisieDate, String saisieLibelle, String saisieMode, String saisieMontant,
 			boolean saisieFlagPec) {
 		StringBuilder str = new StringBuilder();
-		str.append("INSERT INTO [BPVF Compte chèque] ");
+		str.append("INSERT INTO [CompteBPVF] ");
 		str.append("(DateMvt, LibelleMvt, NatureMvt, MontantMvt, PriseEnCompteMvt) ");
 		str.append("VALUES (#");
 		str.append(saisieDate);
@@ -78,7 +78,7 @@ public class Modele {
 				+ "NatureMvt, \r\n"
 				+ "MontantMvt, \r\n"
 				+ "PriseEnCompteMvt, \r\n"
-				+ "NumeroChqMvt from [BPVF Compte chèque] WHERE [BPVF Compte chèque].[PriseEnCompteMvt] Is null ORDER BY 2,3");
+				+ "NumeroChqMvt from [CompteBPVF] WHERE [CompteBPVF].[PriseEnCompteMvt] Is null ORDER BY 2,3");
 	}
 	
 }
