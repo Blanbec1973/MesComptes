@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -19,14 +21,21 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
+import javax.swing.table.DefaultTableModel;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import control.Controle;
+import control.Utils;
 
 
 public class Vue {
@@ -37,6 +46,8 @@ public class Vue {
 	JComboBox<Object> cmbMode = new JComboBox<>();
 	private JTextField saisieMontant = new JTextField();
 	private JCheckBox saisieFlagPec = new JCheckBox();
+	private JTable tblMouvementsNonPEC = new JTable();
+	private static final Logger logger = LogManager.getFormatterLogger(Vue.class);
 	
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
 		new Vue(null);
@@ -63,6 +74,8 @@ public class Vue {
 		
 		pnlMain.add(buildPnlSolde(), BorderLayout.NORTH);
 		
+		pnlMain.add(buildPnlTable(),BorderLayout.CENTER);
+		
 		pnlMain.add(buildPnlSaisie(), BorderLayout.SOUTH);
 		
         WindowListener exitListener = new WindowAdapter() {
@@ -74,6 +87,8 @@ public class Vue {
         fen.addWindowListener(exitListener);
 		fen.setVisible(true);
 	}
+	
+	
 	private JPanel 	buildPnlSolde() {
 		JPanel pnlSoldes = new JPanel();
 		pnlSoldes.setLayout(new GridLayout(1,4));
@@ -147,7 +162,32 @@ public class Vue {
 		
 	}
 
-	
+	private JScrollPane buildPnlTable() {
+		ResultSet rst = controle.demandeMouvementsNonPEC();
+		DefaultTableModel tableModele=(DefaultTableModel) tblMouvementsNonPEC.getModel();
+		try {
+			tableModele.setColumnIdentifiers(Utils.recupereEnTetes(rst));
+			Utils.recupereData(rst,tableModele);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		tblMouvementsNonPEC = new JTable();
+		tblMouvementsNonPEC.setModel(tableModele);
+		JScrollPane pnlTable = new JScrollPane(tblMouvementsNonPEC);
+				
+		return pnlTable;
+	}
+
+	public void refreshTableMvtNonPec() {
+		DefaultTableModel tableModele=(DefaultTableModel) tblMouvementsNonPEC.getModel();
+		try {
+			Utils.recupereData(controle.demandeMouvementsNonPEC(), tableModele);
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		tblMouvementsNonPEC.setModel(tableModele);
+	}
+
 }
 
 

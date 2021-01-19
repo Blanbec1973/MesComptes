@@ -8,7 +8,10 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import control.Controle;
+
 public class Modele {
+	private Controle controle;
 	private SGBDManager sgbd;
 	private Map <String,String> lstCodeNature = new HashMap<>();
 	private Solde solde;
@@ -17,17 +20,18 @@ public class Modele {
 	public Solde getSolde() {return solde;}
 	public Map<String, String> getLstCodeNature() {return lstCodeNature;}
 
-	public Modele(String nomFichierBase) {
+	public Modele(Controle controle, String nomFichierBase) {
+		this.controle=controle;
 		sgbd = new SGBDManager(nomFichierBase);
 		sgbd.connect();
 		
-		solde= new Solde(sgbd);
+		solde= new Solde(sgbd, controle.getParametres());
 		this.chargeTabCodeLibelle(lstCodeNature, "Code nature");	
 		
 	}
 	
 	public static void main(String[] args) {
-		Modele m = new Modele("//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
+		Modele m = new Modele(null, "//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
 		logger.info("Solde 0 : {}", m.getSolde().calculSoldePEC());
 		m.close();
 	}
@@ -49,6 +53,32 @@ public class Modele {
 	
 	public boolean insereLigneCompte(String saisieDate, String saisieLibelle, String saisieMode, String saisieMontant,
 			boolean saisieFlagPec) {
+		StringBuilder str = new StringBuilder();
+		str.append("INSERT INTO [BPVF Compte chèque] ");
+		str.append("(DateMvt, LibelleMvt, NatureMvt, MontantMvt, PriseEnCompteMvt) ");
+		str.append("VALUES (#");
+		str.append(saisieDate);
+		str.append("#, '");
+		str.append(saisieLibelle);
+		str.append("', '");
+		str.append(saisieMode);
+		str.append("', ");
+		str.append(saisieMontant);
+		str.append(", ");
+		if (saisieFlagPec) str.append(" '1'"); else str.append(" ''");
+		str.append(")");
+		sgbd.updateSql(str.toString());
+		
 		return true;
 	}
+	
+	public ResultSet getRstMouvementsNonPec() {
+		return sgbd.selectSQL("Select CléMvt, DateMvt, \r\n"
+				+ "LibelleMvt, \r\n"
+				+ "NatureMvt, \r\n"
+				+ "MontantMvt, \r\n"
+				+ "PriseEnCompteMvt, \r\n"
+				+ "NumeroChqMvt from [BPVF Compte chèque] WHERE [BPVF Compte chèque].[PriseEnCompteMvt] Is null ORDER BY 2,3");
+	}
+	
 }

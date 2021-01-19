@@ -1,5 +1,6 @@
 package control;
 
+import java.sql.ResultSet;
 import java.util.Map;
 
 import javax.swing.UIManager;
@@ -24,12 +25,10 @@ public class Controle {
 		
 		parametres = new Parametres("config.properties");
 		
-		modele = new Modele(parametres.getNomFichierBase());
+		modele = new Modele(this, parametres.getNomFichierBase());
 		
 		vue = new Vue(this);
-		
-		
-		
+			
 	}
 
 	public static void main(String[] args) throws UnsupportedLookAndFeelException {
@@ -46,14 +45,19 @@ public class Controle {
 	public void demandeInsertionLigneDeCompte(String saisieDate, String saisieLibelle,
 			                                  String saisieMode, String saisieMontant,
 			                                  boolean saisieFlagPec) {
-		logger.info(saisieDate+"-"+saisieLibelle+"-"+saisieMode+"-"+saisieMontant+"-"+saisieFlagPec);
-		if (modele.insereLigneCompte(saisieDate, saisieLibelle, saisieMode, saisieMontant, saisieFlagPec))
+		if (modele.insereLigneCompte(saisieDate, saisieLibelle, saisieMode, saisieMontant, saisieFlagPec)) {
 			vue.razZonesSaisie();
+			vue.refreshTableMvtNonPec();
+		}
 		else
 			vue.afficheMessageErreur();
 		
 	}
 	
+	public Parametres getParametres() {
+		return parametres;
+	}
+
 	public String demandeSoldePEC() {
 		return Utils.formatMontant(modele.getSolde().calculSoldePEC());
 	}
@@ -68,5 +72,9 @@ public class Controle {
 
 	public Map<String,String> demandeListeNature() {
 		return modele.getLstCodeNature();
+	}
+	
+	public ResultSet demandeMouvementsNonPEC() {
+		return modele.getRstMouvementsNonPec();
 	}
 }

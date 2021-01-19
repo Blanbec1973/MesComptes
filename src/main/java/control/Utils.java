@@ -1,10 +1,18 @@
 package control;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.swing.table.DefaultTableModel;
+
 public class Utils {
+	
+	private Utils() {
+		throw new IllegalStateException("Utility class");
+	}
 	
 	public static String formatMontant(float nombre) {
 		StringBuilder str = new StringBuilder();
@@ -37,5 +45,25 @@ public class Utils {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 		return formatter.format(datePemierMoisSuivant);
 	}
-
+	
+	public static String [] recupereEnTetes(ResultSet rst) throws SQLException {
+		int nombreColonnes = rst.getMetaData().getColumnCount();
+		String [] entetes = new String[nombreColonnes];
+		
+		for (int i = 0; i < nombreColonnes; i++) {
+			entetes[i]=rst.getMetaData().getColumnName(i+1);
+		}
+		return entetes;
+	}
+	
+	public static void recupereData(ResultSet rst, DefaultTableModel tableModele) throws SQLException {
+		int nombreColonnes = rst.getMetaData().getColumnCount();
+		while(rst.next()){
+			 Object[] objects = new Object[nombreColonnes];
+			 for(int i=0;i<nombreColonnes;i++){
+			  objects[i]=rst.getObject(i+1);
+			  }
+			 tableModele.addRow(objects);
+			}
+	}
 }

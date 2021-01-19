@@ -6,10 +6,12 @@ import java.sql.SQLException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import control.Parametres;
 import control.Utils;
 
 public class Solde {
 	private SGBDManager sgbd;
+	private Parametres parametres;
 	private static final Logger logger = LogManager.getFormatterLogger(Modele.class);
 	private static final String SQL_SOLDEPEC = "SELECT Sum([BPVF Compte chèque].[MontantMvt]) AS Somme, "
 			                                 + "[BPVF Compte chèque].[PriseEnCompteMvt] AS pec "
@@ -25,8 +27,9 @@ public class Solde {
 									                 + "FROM [BPVF Compte chèque] "
 									                 + "WHERE [BPVF Compte chèque].[DateMvt]<#%s# ";	
 	
-	public Solde(SGBDManager sgbd) {
+	public Solde(SGBDManager sgbd, Parametres parametres) {
 		this.sgbd=sgbd;
+		this.parametres=parametres;
 	}
 
 	public float calculSoldePEC() {

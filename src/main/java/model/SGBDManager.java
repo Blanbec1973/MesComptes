@@ -74,11 +74,12 @@ public class SGBDManager {
     *Envoi d'une requête de mise à jour (insert, update, delete)
     *@param : sql
     */
-    public void updateSql(String sql) throws SQLException {
+    public void updateSql(String sql) {
         statement = null;
         try {
             statement = connection.createStatement();
             statement.executeUpdate(sql);
+            logger.info(sql);
         }
         catch (SQLException e) {
         	logger.error(e.getMessage());
