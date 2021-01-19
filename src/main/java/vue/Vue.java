@@ -126,7 +126,7 @@ public class Vue {
 		lblFlagPec.setHorizontalAlignment(SwingConstants.CENTER);
 		pnlSaisie.add(new JLabel(""));
 		
-		for (Map.Entry mapentry : controle.demandeListeNature().entrySet()) {
+		for (Map.Entry<String, String> mapentry : controle.demandeListeNature().entrySet()) {
 			cmbMode.addItem(mapentry.getKey());
 		}
 		
@@ -173,9 +173,7 @@ public class Vue {
 		}
 		tblMouvementsNonPEC = new JTable();
 		tblMouvementsNonPEC.setModel(tableModele);
-		JScrollPane pnlTable = new JScrollPane(tblMouvementsNonPEC);
-				
-		return pnlTable;
+		return new JScrollPane(tblMouvementsNonPEC);
 	}
 
 	public void refreshTableMvtNonPec() {
