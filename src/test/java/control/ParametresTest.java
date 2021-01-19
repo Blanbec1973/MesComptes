@@ -8,14 +8,15 @@ import org.junit.jupiter.api.Test;
 
 class ParametresTest {
 	private static Parametres parametres;
+	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		parametres = new Parametres("config.properties");
 	}
 
 	@Test
-	void testGetNomFichierBase() {
-		String nomFichier = parametres.getProperty(null);
+	void testGetProperty() {
+		String nomFichier = parametres.getProperty("nomFichierBase");
 		assertNotNull(nomFichier);
 	}
 	

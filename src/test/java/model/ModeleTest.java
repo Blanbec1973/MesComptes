@@ -10,13 +10,17 @@ import java.util.Map;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+
+import control.Controle;
 
 class ModeleTest {
 	private static Modele modele;
+	private static Controle controle=Mockito.mock(Controle.class);
 	
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
-		modele=new Modele(null, "//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
+		modele=new Modele(controle, "//C:\\\\Users/heynerr\\\\Documents\\\\0-Personnel\\\\Comptes\\\\Comptes.accdb");
 	}
 	
 	@AfterAll

@@ -38,13 +38,11 @@ class SGBDManagerTest {
 
 	@Test
 	void testSQLSelect() {
-		//System.out.println("testSQLSelect");
 		ResultSet rst = base.selectSQL("Select * from [Code nature]");
 		int nbRow=0;
 		String lastLibelle ="";
 		
 		try {
-			//System.out.println("Type resulset : "+rst.getType());
 			while (rst.next()) {
 				nbRow+=1;
 				lastLibelle=rst.getString(1);
