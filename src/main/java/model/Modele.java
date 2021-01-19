@@ -73,12 +73,7 @@ public class Modele {
 	}
 	
 	public ResultSet getRstMouvementsNonPec() {
-		return sgbd.selectSQL("Select CléMvt, DateMvt, \r\n"
-				+ "LibelleMvt, \r\n"
-				+ "NatureMvt, \r\n"
-				+ "MontantMvt, \r\n"
-				+ "PriseEnCompteMvt, \r\n"
-				+ "NumeroChqMvt from [CompteBPVF] WHERE [CompteBPVF].[PriseEnCompteMvt] Is null ORDER BY 2,3");
+		return sgbd.selectSQL(controle.getParametres().getProperty("SQL_SELECTMVTNONPEC"));
 	}
 	
 }
