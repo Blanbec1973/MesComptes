@@ -40,12 +40,12 @@ public class Modele {
 		sgbd.disconnect();
 	}
 	
-	public void chargeTabCodeLibelle(Map<String, String> lstCodeNature, String nomTable) {
+	public void chargeTabCodeLibelle(Map<String, String> lstCodeLibelle, String nomTable) {
 		String sql = "Select * from ["+nomTable+"] order by 1;";
 		ResultSet rst = sgbd.selectSQL(sql);
 		try {
 			while (rst.next()) {
-				lstCodeNature.put(rst.getString(1), rst.getString(2));
+				lstCodeLibelle.put(rst.getString(1), rst.getString(2));
 			}
 			rst.close();
 		} catch (SQLException e) {logger.error(e.getMessage());}
@@ -65,7 +65,7 @@ public class Modele {
 		str.append("', ");
 		str.append(saisieMontant);
 		str.append(", ");
-		if (saisieFlagPec) str.append(" '1'"); else str.append(" ''");
+		if (saisieFlagPec) str.append(" '1'"); else str.append(" '0'");
 		str.append(")");
 		sgbd.updateSql(str.toString());
 		
